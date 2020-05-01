@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ShellOut",
+        "repositoryURL": "https://github.com/JohnSundell/ShellOut.git",
+        "state": {
+          "branch": null,
+          "revision": "e1577acf2b6e90086d01a6d5e2b8efdaae033568",
+          "version": "2.3.0"
+        }
+      },
+      {
+        "package": "SwiftyCM",
+        "repositoryURL": "https://github.com/FreeApp2014/SwiftyCM.git",
+        "state": {
+          "branch": null,
+          "revision": "e0c1d20fe47226c0dc69e1389c04da0e57d14b47",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "SwiftyJSON",
+        "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON",
+        "state": {
+          "branch": null,
+          "revision": "f9b4754017cfad4701f0838b2e507b442eaca70a",
+          "version": "17.0.5"
+        }
+      },
+      {
+        "package": "TelegramBotSDK",
+        "repositoryURL": "https://github.com/zmeyc/telegram-bot-swift.git",
+        "state": {
+          "branch": null,
+          "revision": "9f8cfea4dcce1d984c76e0a6732e3d836cd30671",
+          "version": "1.2.7"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
