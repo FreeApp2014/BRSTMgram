@@ -180,7 +180,7 @@ class Controller {
                 let gid = args[0];
                 do {
                     let game = try SwiftyCM.Game(String(gid));
-                    let songList = game.songs.map { a in a.id + ": " + a.title}.joined(separator: "\n");
+                    let songList = game.songs.filter {a in a.canDownload }.map { a in a.id + ": " + a.title}.joined(separator: "\n");
                     context.respondAsync("Search Results:\n\n" + songList);
                 } catch SCMError.objectNotFoundError {
                     context.respondAsync("Game not found");
