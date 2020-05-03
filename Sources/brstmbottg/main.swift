@@ -24,8 +24,9 @@ router["f", .slashRequired] = controller.gameSpecificSearch;
 router.partialMatch = controller.partialMatchHandler;
 
 while let update = bot.nextUpdateSync() {
-    if let message = update.message {
+    if (update.message != nil) {
         try router.process(update: update)
     }
 }
+
 fatalError("Error: \(String(describing: bot.lastError))");
