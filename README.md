@@ -1,6 +1,6 @@
 # BRSTMgram
 
-A telegram bot for bringing SCM experience to your chat.<br /> 
+A Telegram bot for bringing SCM experience to your chat. Example instance: `@brstm_bot`<br /> 
 Based on the [SwiftyCM](https://github.com/FreeApp2014/SwiftyCM) library <br />
 Using [Revolution](https://github.com/Extrasklep/revolution) to do file conversion to WAV.
 
@@ -14,8 +14,8 @@ Then run `swift package resolve` to download all dependencies, `swift build` to 
 ### Build issues
 
 On linux the telegram library fails to build because of the embedded swiftyjson version. 
-To fix that, replace the file at 
-`.build/checkouts/telegram-bot-swift/Sources/TelegramBotSDK/SwiftyJSON/SwiftyJSON.swift` 
-with the file 
-`.build/checkouts/SwiftyJSON/Sources/SwiftyJSON/SwiftyJSON.swift` 
+To fix that, replace the file at <br />
+`.build/checkouts/telegram-bot-swift/Sources/TelegramBotSDK/SwiftyJSON/SwiftyJSON.swift` <br />
+with the file <br />
+`.build/checkouts/SwiftyJSON/Sources/SwiftyJSON/SwiftyJSON.swift` <br />
 and it should build fine.

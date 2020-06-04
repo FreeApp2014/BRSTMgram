@@ -3,6 +3,12 @@ import TelegramBotSDK
 import SwiftyCM
 import ShellOut
 
+extension String {
+    var commandArgStr: String {
+        return self.substring(from: self.index(self.firstIndex(of: Character(" ")) ?? self.index(self.startIndex, offsetBy: 4), offsetBy: 1));
+    }
+}
+
 class Controller {
 
     let bot: TelegramBot;
@@ -17,7 +23,7 @@ class Controller {
             return true;
         }
 
-        let text = context.update.message!.text!.substring(from: 3);
+        let text = context.update.message!.text!.commandArgStr;
 
         if (text.count < 3) {
             context.respondAsync("Please enter search query, minimum 3 characters");
@@ -53,7 +59,7 @@ class Controller {
 
     func downloadWAV (context: Context) -> Bool{
         let text = context.update.message!.text!;
-        let id = text.substring(from: 3);
+        let id = text.commandArgStr;
         let queue = DispatchQueue.global(qos: .background);
         var state = false;
         let que2 = DispatchQueue.global(qos: .background);
@@ -90,8 +96,8 @@ class Controller {
                 }
 
                 let finalData = readfh.readDataToEndOfFile();
-                self.bot.sendDocumentAsync(chatId: context.update.message!.chat.id,
-                        document: InputFile(filename: song.id + " - " + filename + ".wav", data: finalData), 
+                self.bot.sendAudioAsync(chatId: context.update.message!.chat.id,
+                        audio: InputFile(filename: song.id + " - " + filename + ".wav", data: finalData), 
                         replyToMessageId: context.update.message!.messageId);
                 state = true;
 
@@ -118,7 +124,7 @@ class Controller {
 
     func downloadBRSTM (context: Context) -> Bool{
         let text = context.update.message!.text!;
-        let id = text.substring(from: 3);
+        let id = text.commandArgStr;
         let queue = DispatchQueue.global(qos: .background);
         var state = false;
         bot.sendChatActionAsync(chatId:  context.update.message!.chat.id, action: "typing");
@@ -148,6 +154,7 @@ class Controller {
 
             } catch {
                 context.respondAsync("File could not be downloaded");
+                state = true;
             }
         }
 
@@ -156,7 +163,7 @@ class Controller {
 
     func searchGame(context: Context) -> Bool {
         let text = context.update.message!.text!;
-        let query = text.substring(from: 3);
+        let query = text.commandArgStr;
         let list = gameList.filter {a in a.title.lowercased().contains(query.lowercased())};
         let msg = list.map {a in a.id + ": " + a.title}.joined(separator: "\n");
         context.respondAsync("Search Results:\n\n" + msg);
@@ -167,7 +174,7 @@ class Controller {
         let text = context.update.message!.text!;
 
         if (text.count > 3){
-            let query = text.substring(from: 3);
+            let query = text.commandArgStr;
             var args = query.split(separator: " ");
 
             if (args.count > 1) {
@@ -228,5 +235,10 @@ class Controller {
 
     func partialMatchHandler(context: Context) -> Bool {
         true;
+    }
+    
+    func helpCommand(context: Context) -> Bool {
+        context.respondAsync("Welcome to BRSTMgram, the commands you can use:\n/s <query> - find song\n/g <query> - find game\n/f <game_id> [query] - list game songs and filter to query if provided\n/b <song_id> - download brstm song\n/d <song_id> - download wav song");
+        return true;
     }
 }
