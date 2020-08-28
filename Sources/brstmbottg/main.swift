@@ -2,14 +2,20 @@ import SwiftyCM
 import Foundation
 import TelegramBotSDK
 
-let bot = TelegramBot(token: "1188621250:AAHypc6jVfo3gAX2vV0Iu4oZTGMxMYfOq6U");
+let bot = TelegramBot(token: token);
 
-var gameList: [GameListGameField];
-do {
-    gameList = try SCMClient.gameList();
-} catch {
-    fatalError("Failed to fetch gamelist");
+var gameList: [GameListGameField] = [];
+DispatchQueue.global().async {
+    while (true) {
+        do {
+            gameList = (try SCMClient.gameList());
+        } catch {
+            fatalError("Failed to fetch gamelist");
+        }
+        Thread.sleep(forTimeInterval: 500.0);
+    }
 }
+
 let controller = Controller(bot: bot);
 let router = Router(bot: bot);
 

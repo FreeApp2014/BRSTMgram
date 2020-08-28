@@ -85,7 +85,7 @@ class Controller {
                 }
 
                 do {
-                   _ = try shellOut(to: "brstm", arguments: ["\"/tmp/" + song.id + ".brstm\"", "-o \"/tmp/" + song.id + ".wav\""]);
+                   _ = (try shellOut(to: "brstm", arguments: ["\"/tmp/" + song.id + ".brstm\"", "-o \"/tmp/" + song.id + ".wav\""]));
                 } catch {
                    let error = error as! ShellOutError;
                    print(error.message, error.output);
@@ -183,11 +183,15 @@ class Controller {
                 let queryS = args.joined(separator: " ");
 
                 do {
-                    let songsraw = try SCMClient.search(queryS);
+                    let songs = try! Game(String(gid)).songs.filter {a in
+                        var retval = true;
+                        for word in queryS.split(separator: " "){
+                            retval = retval && a.title.localizedCaseInsensitiveContains(word);
+                        }
+                        return retval;
+                    }
                     var msg = "Search Results:\n\n";
                     var i = 0;
-                    let songs = songsraw.filter { a in a.gameId == gid};
-
                     if (songs.count == 0) {
                         throw SCMError.objectNotFoundError;
                     }
