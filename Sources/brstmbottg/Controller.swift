@@ -59,6 +59,10 @@ class Controller {
 
     func downloadWAV (context: Context) -> Bool{
         let text = context.update.message!.text!;
+        if (text.split(separator: " ").count == 1) {
+            context.respondAsync("Please provide id");
+            return true;
+        }
         let id = text.commandArgStr;
         let queue = DispatchQueue.global(qos: .background);
         var state = false;
@@ -124,6 +128,10 @@ class Controller {
 
     func downloadBRSTM (context: Context) -> Bool{
         let text = context.update.message!.text!;
+        if (text.split(separator: " ").count == 1) {
+            context.respondAsync("Please provide id");
+            return true;
+        }
         let id = text.commandArgStr;
         let queue = DispatchQueue.global(qos: .background);
         var state = false;
@@ -163,6 +171,10 @@ class Controller {
 
     func searchGame(context: Context) -> Bool {
         let text = context.update.message!.text!;
+        if (text.split(separator: " ").count == 1) {
+            context.respondAsync("Please provide id");
+            return true;
+        }
         let query = text.commandArgStr;
         let list = gameList.filter {a in a.title.lowercased().contains(query.lowercased())};
         let msg = list.map {a in a.id + ": " + a.title}.joined(separator: "\n");
@@ -172,8 +184,7 @@ class Controller {
 
     func gameSpecificSearch(context: Context) -> Bool {
         let text = context.update.message!.text!;
-
-        if (text.count > 3){
+        if (text.split(separator: " ").count > 1){
             let query = text.commandArgStr;
             var args = query.split(separator: " ");
 
