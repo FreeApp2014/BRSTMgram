@@ -5,12 +5,18 @@ import TelegramBotSDK
 let bot = TelegramBot(token: token);
 
 var gameList: [GameListGameField] = [];
+
+var initialized: Bool = false;
+
 DispatchQueue.global().async {
     while (true) {
         do {
             gameList = (try SCMClient.gameList());
         } catch {
-            fatalError("Failed to fetch gamelist");
+            if (initialized) {
+                continue;
+            }
+            fatalError("Failed to fetch game list");
         }
         Thread.sleep(forTimeInterval: 500.0);
     }
