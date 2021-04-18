@@ -15,17 +15,17 @@
         "repositoryURL": "https://github.com/FreeApp2014/SwiftyCM.git",
         "state": {
           "branch": null,
-          "revision": "791cc17e5166f702405a8435a74c843228c1142e",
-          "version": "2.0.0-beta.2"
+          "revision": "546915e3cbc3cbb85d78059af45fc4c331dcd5a9",
+          "version": "2.0.0-beta.6"
         }
       },
       {
         "package": "SwiftyJSON",
-        "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON",
+        "repositoryURL": "https://github.com/FreeApp2014/SwiftyJSON",
         "state": {
           "branch": null,
-          "revision": "f9b4754017cfad4701f0838b2e507b442eaca70a",
-          "version": "17.0.5"
+          "revision": "c796902a0496dc2808d21314a96f06e32844ee30",
+          "version": "17.0.7"
         }
       },
       {
