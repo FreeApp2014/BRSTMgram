@@ -32,18 +32,18 @@ class Controller {
 
         do {
             let songs = try SCMClient.search(text);
-            var msg = "Search Results:\n\n";
+            var msg = "*Search Results*:\n\n";
             var i = 0;
 
             for song in songs {
                 let game = gameList.filter {a in a.id == song.gameId}
-                let addition = song.id + ": " + game[0].title + " - " + song.title + "\n";
+                let addition = "`" + song.id + "`: _" + game[0].title + "_ - " + song.title + "\n";
                 if (msg.count + addition.count > 4096) {break;}
                 msg += addition;
                 i+=1;
             }
 
-            context.respondAsync(msg);
+            context.respondAsync(msg, parseMode: "markdown", replyToMessageId: context.update.message!.messageId);
         } catch SCMError.objectNotFoundError {
             context.respondAsync("Nothing found", replyToMessageId: context.update.message!.messageId);
         } catch {
