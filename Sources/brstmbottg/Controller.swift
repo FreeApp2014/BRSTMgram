@@ -43,7 +43,7 @@ class Controller {
                 i+=1;
             }
 
-            context.respondAsync(msg, parseMode: "markdown", replyToMessageId: context.update.message!.messageId);
+            context.respondAsync(msg, parseMode: .markdown, replyToMessageId: context.update.message!.messageId);
         } catch SCMError.objectNotFoundError {
             context.respondAsync("Nothing found", replyToMessageId: context.update.message!.messageId);
         } catch {
@@ -70,7 +70,7 @@ class Controller {
 
         que2.async{
             while (!state){
-                self.bot.sendChatActionAsync(chatId: context.update.message!.chat.id, action: "typing");
+                self.bot.sendChatActionAsync(chatId: ChatId.chat(context.update.message!.chat.id), action: "typing");
                 Thread.sleep(forTimeInterval: 5);
             }
         }
@@ -112,8 +112,8 @@ class Controller {
                 }
 
                 let finalData = readfh.readDataToEndOfFile();
-                self.bot.sendAudioAsync(chatId: context.update.message!.chat.id,
-                        audio: InputFile(filename: song.id + " - " + filename + ".wav", data: finalData), 
+                self.bot.sendAudioAsync(chatId: ChatId.chat(context.update.message!.chat.id),
+                                        audio: InputFileOrString.inputFile(InputFile(filename: song.id + " - " + filename + ".wav", data: finalData)) , 
                         replyToMessageId: context.update.message!.messageId);
              	try FileManager.default.removeItem(at: URL(fileURLWithPath: "/tmp/\(song.id).brstm"));
             	try FileManager.default.removeItem(at: URL(fileURLWithPath:"/tmp/\(song.id).wav"));
@@ -152,13 +152,13 @@ class Controller {
         let id = text.commandArgStr;
         let queue = DispatchQueue.global(qos: .background);
         var state = false;
-        bot.sendChatActionAsync(chatId:  context.update.message!.chat.id, action: "typing");
+        bot.sendChatActionAsync(chatId:  ChatId.chat(context.update.message!.chat.id), action: "typing");
         let que2 = DispatchQueue.global(qos: .background);
 
         que2.async{
             while (!state){
                 Thread.sleep(forTimeInterval: 5);
-                self.bot.sendChatActionAsync(chatId:  context.update.message!.chat.id, action: "typing");
+                self.bot.sendChatActionAsync(chatId:  ChatId.chat(context.update.message!.chat.id), action: "typing");
             }
         }
 
@@ -182,8 +182,8 @@ class Controller {
                 }
 
                 let filename = String(song.title.map {$0 == "/" ? "_" : $0;});
-                self.bot.sendDocumentAsync(chatId: context.update.message!.chat.id,
-                        document: InputFile(filename: song.id + " - " + filename + ".brstm", data: data), 
+                self.bot.sendDocumentAsync(chatId: ChatId.chat(context.update.message!.chat.id),
+                                           document: InputFileOrString.inputFile(InputFile(filename: song.id + " - " + filename + ".brstm", data: data)),
                         replyToMessageId: context.update.message!.messageId);
                 state = true;
 
@@ -205,7 +205,7 @@ class Controller {
         let query = text.commandArgStr;
         let list = gameList.filter {a in a.title.lowercased().contains(query.lowercased())};
         let msg = list.map {a in "`" + a.id + "`: " + a.title}.joined(separator: "\n");
-        context.respondAsync("*Search Results*:\n\n" + msg, parseMode: "markdown");
+        context.respondAsync("*Search Results*:\n\n" + msg, parseMode: .markdown);
         return true;
     }
 
@@ -258,11 +258,11 @@ class Controller {
                     let game = try SwiftyCM.Game(String(gid));
                     var songList = game.songs.filter {a in a.canDownload }.map { a in "`" + a.id + "`: " + a.title}.joined(separator: "\n");
 
-                    if (songList.count > 4010) {
-                        songList = songList.substring(to: 4010) + "\n_<...>(" + String(songList.substring(from: 4011).split(separator: "\n").count) + " more)_";
+                    if (songList.count > 2500) {
+                        songList = songList.prefix(2500) + "\n_<...>(" + String(songList.suffix(2501).split(separator: "\n").count) + " more)_";
                     }
 
-                    context.respondAsync("*Search Results*:\n\n" + songList, parseMode: "markdown");
+                    context.respondAsync("*Search Results*:\n\n" + songList, parseMode: .markdown);
                 } catch SCMError.objectNotFoundError {
                     context.respondAsync("Game not found", replyToMessageId: context.update.message!.messageId);
                 } catch {
@@ -270,7 +270,7 @@ class Controller {
                 }
             }
         } else {
-            context.respondAsync("Please specify `<game_id> [search_query]`", parseMode: "markdown", replyToMessageId: context.update.message!.messageId);
+            context.respondAsync("Please specify `<game_id> [search_query]`", parseMode: .markdown, replyToMessageId: context.update.message!.messageId);
         }
         return true;
     }
@@ -280,7 +280,7 @@ class Controller {
     }
     
     func helpCommand(context: Context) -> Bool {
-        context.respondAsync("*Welcome to BRSTMgram, the commands you can use*:\n`/s <query>` - find song\n`/g <query>` - find game\n`/f <game_id> [query]` - list game songs and filter to query if provided\n`/b <song_id>` - download brstm song\n`/d <song_id>` - download wav song", parseMode: "markdown", replyToMessageId: context.update.message!.messageId);
+        context.respondAsync("*Welcome to BRSTMgram, the commands you can use*:\n`/s <query>` - find song\n`/g <query>` - find game\n`/f <game_id> [query]` - list game songs and filter to query if provided\n`/b <song_id>` - download brstm song\n`/d <song_id>` - download wav song", parseMode: .markdown, replyToMessageId: context.update.message!.messageId);
         return true;
     }
 }

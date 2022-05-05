@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/FreeApp2014/SwiftyCM.git",
         "state": {
           "branch": null,
-          "revision": "546915e3cbc3cbb85d78059af45fc4c331dcd5a9",
-          "version": "2.0.0-beta.6"
+          "revision": "494e65bb5e48929b2d044348e6a6f20a304d1668",
+          "version": "2.0.0-beta.7"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/zmeyc/telegram-bot-swift.git",
         "state": {
           "branch": null,
-          "revision": "9f8cfea4dcce1d984c76e0a6732e3d836cd30671",
-          "version": "1.2.7"
+          "revision": "c03186fdbde69be648be33c57793a2d83c5a8256",
+          "version": "2.1.2"
         }
       }
     ]
