@@ -1,8 +1,14 @@
 import SwiftyCM
 import Foundation
 import TelegramBotSDK
-
+/// Bot Token
+let token = ProcessInfo.processInfo.environment["TG_TOKEN"]!;
 let bot = TelegramBot(token: token);
+
+/// Path for temporarily storing BRSTM files
+let brstmPathPrefix = ProcessInfo.processInfo.environment["BRSTM_ARTIFACT_LOCATION"] ?? "/tmp/"
+/// Path for temporarily storing WAV files
+let wavPathPrefix = ProcessInfo.processInfo.environment["WAV_DOWNLOADS_LOCATION"] ?? "/tmp/"
 
 var gameList: [GameListGameField] = [];
 
@@ -12,6 +18,7 @@ DispatchQueue.global().async {
     while (true) {
         do {
             gameList = (try SCMClient.gameList());
+            initialized = true;
         } catch {
             if (initialized) {
                 continue;
